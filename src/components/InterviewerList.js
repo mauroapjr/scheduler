@@ -14,7 +14,7 @@ const interviewers = props.interviewers.map(interviewerObj => {
     name={interviewerObj.name}
     avatar={interviewerObj.avatar}
     selected={interviewerObj.id === props.value}
-    setInterviewer={() => props.onChange(interviewerObj.id)}
+    setInterviewer={() => props.onChange(interviewerObj.id)} //giving me an error .onChange is not a function
     />
   )
 })
