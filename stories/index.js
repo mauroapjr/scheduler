@@ -5,6 +5,11 @@ import { action } from "@storybook/addon-actions";
 
 import "index.scss";
 
+import Form from "components/Appointment/Form";
+import Error from "components/Appointment/Error";
+import Status from "components/Appointment/Status";
+import Confirm from "components/Appointment/Confirm";
+import Show from "components/Appointment/Show";
 import Empty from "components/Appointment/Empty";
 import Header from "components/Appointment/Header";
 import Appointment from "components/Appointment/index.js";
@@ -146,4 +151,10 @@ storiesOf("Button", module)
         ))
         .add("Appointment with time", () => <Appointment time = "12pm" />)
         .add("Header", () => <Header time = "12pm" />)
-        .add("Empty", () => <Empty onAdd={action("onAdd")}/>)  
+        .add("Empty", () => <Empty onAdd={action("onAdd")}/>) 
+        .add("Show", () => <Show onEdit={action("Edit")} onDelete={action("Delete")}/>)
+        .add("Confirm", () => <Confirm onConfirm={action("Confirm")} onCancel={action("Cancel")}/>) 
+        .add("Status", () => <Status/>)
+        .add("Error", () => <Error onClose={action("Close")}/>) 
+        .add("Form - create", () => <Form interviewers={interviewers} onSave={action("Save")} onCancel={action("Cancel")}/>)
+        .add("Form - edit", () => <Form name="Bob" interviewers={interviewers} value={3} onSave={action("Save")} onCancel={action("Cancel")}/>) 
