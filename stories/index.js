@@ -1,9 +1,10 @@
-import React from "react";
+import React, { Fragment } from 'react'
 
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 
 import "index.scss";
+
 
 import Form from "components/Appointment/Form";
 import Error from "components/Appointment/Error";
@@ -158,3 +159,19 @@ storiesOf("Button", module)
         .add("Error", () => <Error onClose={action("Close")}/>) 
         .add("Form - create", () => <Form interviewers={interviewers} onSave={action("Save")} onCancel={action("Cancel")}/>)
         .add("Form - edit", () => <Form name="Bob" interviewers={interviewers} value={3} onSave={action("Save")} onCancel={action("Cancel")}/>) 
+        .add("Appointment Empty", () => (
+          <Fragment>
+            <Appointment id={1} time="4pm" />
+            <Appointment time="5pm" />
+          </Fragment>
+        ))
+        .add("Appointment Booked", () => (
+          <Fragment>
+            <Appointment
+              id={1}
+              time="4pm"
+              interview={{ student: "Lydia Miller-Jones", interviewer }}
+            />
+            <Appointment time="5pm" />
+          </Fragment>
+        ))
