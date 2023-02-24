@@ -172,6 +172,6 @@ storiesOf("Button", module)
               time="4pm"
               interview={{ student: "Lydia Miller-Jones", interviewer }}
             />
-            <Appointment time="5pm" />
+            <Appointment key="last" time="5pm" />
           </Fragment>
         ))
