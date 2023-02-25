@@ -4,43 +4,55 @@ import DayList from "./DayList";
 import Appointment from "components/Appointment";
 
 import "components/Application.scss";
-import { getAppointmentsForDay }  from "helpers/selectors";
+import { getAppointmentsForDay, getInterview }  from "helpers/selectors";
 
 export default function Application(props) {
   const [state, setState] = useState({
     day: "Monday",
     days: [],
-    // you may put the line below, but will have to remove/comment hardcoded appointments variable
     appointments: {}
   });
-
+  
   const dailyAppointments = getAppointmentsForDay(state, state.day)
-  
-  const setDay = day => setState({ ...state, day });
-  
-  const appointment = Object.values(dailyAppointments).map(appointmentsObj => {
-    return (
-      <Appointment
-          key={appointmentsObj.id}
-          {...appointmentsObj}
-      />
-  )
-})
+    //console.log("DAILYAPP", dailyAppointments)
+
+    const setDay = day => setState({ ...state, day });
+
+    const appointment = dailyAppointments.map(appointmentsObj => {
+      
+      const interview = getInterview(state, appointmentsObj.interview);
+      //console.log("interview", interview);
+
+      return (
+        <Appointment
+            key={appointmentsObj.id}
+            {...appointmentsObj}
+            interview={interview}
+        />
+      )
+    })
   
   useEffect(() => {
-    const daysURL = `http://localhost:8001/api/days`;
-    const appointmentsURL = `http://localhost:8001/api/appointments`;
+    const daysURL = `/api/days`;
+    const appointmentsURL = `/api/appointments`;
+    const interviewersURL = `/api/interviewers`;
     Promise.all([
       axios.get(daysURL),
-      axios.get(appointmentsURL)])
+      axios.get(appointmentsURL),
+      axios.get(interviewersURL)])
       .then(response => {
-        setState(prevState => ({ ...prevState, days: response[0].data, appointments: response[0].data[0].id}));
-        console.log('RESPONSE>0<ID', response[0].data[0].id);
-        console.log('RESPONSE', response)
+        setState(prevState => 
+          ({ ...prevState, 
+            days: response[0].data, 
+            appointments: response[1].data,
+            interviewers: response[2].data
+            }));
+        // console.log('RESPONSE>DAYS', response[0].data[0].id);
+        // console.log('RESPONSE>APPOINTMENT', response[1].data);
+        // console.log('RESPONSE>INTERVIEWER', response[2].data);
       })
   }, [])
-//[0].data[2]
-
+  
   return (    
     <main className="layout">
       <section className="sidebar">
