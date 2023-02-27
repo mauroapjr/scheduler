@@ -4,7 +4,7 @@ import DayList from "./DayList";
 import Appointment from "components/Appointment";
 
 import "components/Application.scss";
-import { getAppointmentsForDay, getInterview }  from "helpers/selectors";
+import { getAppointmentsForDay, getInterview, getInterviewersForDay }  from "helpers/selectors";
 
 export default function Application(props) {
   const [state, setState] = useState({
@@ -13,21 +13,24 @@ export default function Application(props) {
     appointments: {}
   });
   
-  const dailyAppointments = getAppointmentsForDay(state, state.day)
-    //console.log("DAILYAPP", dailyAppointments)
+  const dailyAppointments = getAppointmentsForDay(state, state.day);
+
+  const interviewers = getInterviewersForDay(state, state.day);
+    console.log("interviewers", interviewers);
+
 
     const setDay = day => setState({ ...state, day });
 
     const appointment = dailyAppointments.map(appointmentsObj => {
       
       const interview = getInterview(state, appointmentsObj.interview);
-      //console.log("interview", interview);
-
+      
       return (
         <Appointment
             key={appointmentsObj.id}
             {...appointmentsObj}
             interview={interview}
+            interviewers={interviewers}
         />
       )
     })
@@ -47,12 +50,9 @@ export default function Application(props) {
             appointments: response[1].data,
             interviewers: response[2].data
             }));
-        // console.log('RESPONSE>DAYS', response[0].data[0].id);
-        // console.log('RESPONSE>APPOINTMENT', response[1].data);
-        // console.log('RESPONSE>INTERVIEWER', response[2].data);
       })
   }, [])
-  
+  console.log("STATE>INTERV", state.interviewers);
   return (    
     <main className="layout">
       <section className="sidebar">

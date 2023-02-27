@@ -4,9 +4,6 @@ state.days.forEach(dayObject => {
   if(dayObject.name === day) {
     dayObject.appointments.forEach(apptId =>appointmentArr.push(state.appointments[apptId]))
   }
-  // console.log("dayObject.name&&&&&&", dayObject.name)
-  // console.log("appointmentArr*****", appointmentArr)
-  // console.log("apptID$$$$$$",)
 })
 return appointmentArr;
 }
@@ -23,3 +20,12 @@ export function getInterview(state, interview) {
     interviewer: interviewerInfo
   }
 }
+
+export function getInterviewersForDay(state, day) {
+  let interviewersObj = state.days.find(dayObject => dayObject.name === day)
+    if (state.days.length === 0 || !interviewersObj) {
+      return []; 
+    }
+  return interviewersObj.interviewers.map(id => state.interviewers[id])
+
+} 
