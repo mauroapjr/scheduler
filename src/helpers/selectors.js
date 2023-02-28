@@ -24,7 +24,6 @@ export function getInterview(state, interview) {
     student: interview.student,
     interviewer: interviewerInfo,
   };
-
 }
 
 export function getInterviewersForDay(state, day) {
