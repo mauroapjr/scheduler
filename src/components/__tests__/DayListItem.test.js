@@ -52,11 +52,9 @@ it("loads data, cancels an interview and increases the spots remaining for Monda
 
   // 4. Check that the confirmation message is shown.
   expect(getByText(appointment, "Delete the appointment?")).toBeInTheDocument();
-  //expect(getByText(appointment, "Deleting")).toBeInTheDocument();
 
   // 5. Click the "Confirm" button on the confirmation.
   fireEvent.click(queryByText(appointment, "Confirm"));
-  //fireEvent.click(getByText(appointment, "Confirm"));
 
   // 6. Check that the element with the text "Deleting" is displayed.
   expect(getByText(appointment, "Deleting")).toBeInTheDocument();
@@ -70,6 +68,7 @@ it("loads data, cancels an interview and increases the spots remaining for Monda
   );
   expect(getByText(day, "2 spots remaining")).toBeInTheDocument();
   debug();
+
   //console.log(prettyDOM());
   console.log(prettyDOM(container));
 });

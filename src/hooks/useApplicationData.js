@@ -26,7 +26,6 @@ export default function useApplicationData(props) {
         appointments: response[1].data,
         interviewers: response[2].data,
       }));
-      console.log("DAYS", response);
     });
   }, []);
 
@@ -94,8 +93,6 @@ export default function useApplicationData(props) {
   };
 
   const updateSpots = (weekday, days, variable, id, appointments) => {
-    console.log("ALL SPOTS", weekday, days, variable, id, appointments);
-    console.log("variable", variable);
     if (variable === "REMOVE_SPOT") {
       console.log("HERE");
       const updatedStateDayArray = days.map((day) => {
@@ -104,7 +101,7 @@ export default function useApplicationData(props) {
           spots: spotUpdate(weekday, day, variable, id, appointments),
         };
       });
-      console.log("updatedStateDayArray", updatedStateDayArray);
+
       return updatedStateDayArray;
     }
 
