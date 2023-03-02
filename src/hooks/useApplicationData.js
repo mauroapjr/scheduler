@@ -10,7 +10,7 @@ export default function useApplicationData(props) {
   });
 
   const setDay = (day) => setState({ ...state, day });
-  
+
   useEffect(() => {
     const daysURL = `/api/days`;
     const appointmentsURL = `/api/appointments`;
@@ -22,11 +22,11 @@ export default function useApplicationData(props) {
     ]).then((response) => {
       setState((prevState) => ({
         ...prevState,
-        days: response[0].data,
-        appointments: response[1].data, 
+        days: response[0]?.data,
+        appointments: response[1].data,
         interviewers: response[2].data,
       }));
-      
+      console.log("DAYS", response);
     });
   }, []);
 
@@ -44,10 +44,11 @@ export default function useApplicationData(props) {
       const spotUpdate = updateSpots(
         state.day,
         state.days,
+        "REMOVE_SPOT",
         id,
-        state.appointments,
-        "REMOVE_SPOT"
-      )
+        state.appointments
+      );
+      console.log("SPOTS", spotUpdate);
       setState({ ...state, days: spotUpdate, appointments });
     });
   }
@@ -57,16 +58,17 @@ export default function useApplicationData(props) {
       const spotUpdate = updateSpots(
         state.day,
         state.days,
+        "ADD_SPOT",
         id,
-        state.appointments,
-        "ADD_SPOT"
+        state.appointments
       );
-      setState({ ...state, days: spotUpdate,  });
+      setState({ ...state, days: spotUpdate });
     });
   }
 
   const spotUpdate = (weekday, day, variable, id, appointments) => {
     let spot = day.spots;
+
     if (
       weekday === day.name &&
       variable === "REMOVE_SPOTS" &&
@@ -92,15 +94,20 @@ export default function useApplicationData(props) {
   };
 
   const updateSpots = (weekday, days, variable, id, appointments) => {
+    console.log("ALL SPOTS", weekday, days, variable, id, appointments);
+    console.log("variable", variable);
     if (variable === "REMOVE_SPOT") {
+      console.log("HERE");
       const updatedStateDayArray = days.map((day) => {
         return {
           ...day,
           spots: spotUpdate(weekday, day, variable, id, appointments),
         };
       });
+      console.log("updatedStateDayArray", updatedStateDayArray);
       return updatedStateDayArray;
     }
+
     if (variable === "ADD_SPOT") {
       const updatedStateDayArray = days.map((day) => {
         return {

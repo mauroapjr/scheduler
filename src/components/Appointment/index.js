@@ -25,39 +25,32 @@ export default function Appointment(props) {
     props.interview ? SHOW : EMPTY
   );
 
-  // useEffect(() => {
-  //   if (props.interview === EMPTY) {
-  //     transition(SHOW);
-  //   }
-  //   if (!props.interview === SHOW) {
-  //     transition(EMPTY);
-  //   }
-  // }, [mode, transition, props.interview]);
-
   function save(name, interviewer) {
     const interview = {
       student: name,
       interviewer,
     };
     transition(SAVING);
-    props.bookInterview(props.id, interview)
+    props
+      .bookInterview(props.id, interview)
       .then(() => transition(SHOW))
-      .catch(error => transition(ERROR_SAVE, true));
+      .catch((error) => transition(ERROR_SAVE, true));
   }
 
   function remove() {
     transition(DELETING, true);
-    props.cancelInterview(props.id)
-    .then(() => transition(EMPTY))
-    .catch(error => transition(ERROR_DELETE, true));
+    props
+      .cancelInterview(props.id)
+      .then(() => transition(EMPTY))
+      .catch((error) => transition(ERROR_DELETE, true));
   }
 
   return (
-    <article className="appointment">
+    <article className="appointment" data-testid ="appointment" >
       <Header time={props.time} />
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
       {mode === SHOW && (
-        <Show
+        <Show 
           student={props.interview.student}
           interviewer={props.interview.interviewer}
           onSave={save}
